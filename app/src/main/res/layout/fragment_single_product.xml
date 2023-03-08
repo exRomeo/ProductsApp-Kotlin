@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SingleProductFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_Thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/img_desc"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/brandText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/five" />
+
+    <TextView
+        android:id="@+id/textDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/description"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_Thumbnail" />
+
+    <TextView
+        android:id="@+id/textTitle"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/title_holder"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/img_Thumbnail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.59" />
+
+    <RatingBar
+        android:id="@+id/frg_ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:clickable="false"
+        android:isIndicator="true"
+        android:max="5"
+        android:numStars="5"
+        app:layout_constraintBottom_toTopOf="@+id/img_Thumbnail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+    <TextView
+        android:id="@+id/priceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/price_holder"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_Thumbnail" />
+
+    <TextView
+        android:id="@+id/brandText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="402dp"
+        android:text="@string/brand_holder"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_Thumbnail" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="55dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:text="@string/addButton"
+        app:icon="@drawable/heart"
+        app:iconTint="#950B0B"
+        app:layout_constraintBottom_toBottomOf="@+id/textTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textTitle"
+        app:rippleColor="@color/purple_200"
+        app:strokeColor="#FFFFFF" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

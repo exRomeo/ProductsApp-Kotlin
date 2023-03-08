@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyProductsApp-Kotlin</string>
+    <string name="products">Products</string>
+    <string name="favorites">Favorites</string>
+    <string name="exit">Exit</string>
+
+    <string name="product_name">Product Name</string>
+    <string name="image_desc">Product Image</string>
+    <string name="img_desc">Product Image</string>
+    <string name="description">Description</string>
+    <string name="title_holder">Title</string>
+    <string name="price_holder">Price</string>
+    <string name="brand_holder">Brand</string>
+    <string name="addButton">Add</string>
+    <string name="search">Search…</string>
+</resources>
