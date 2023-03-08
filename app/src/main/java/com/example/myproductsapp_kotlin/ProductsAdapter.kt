@@ -26,7 +26,7 @@ class ProductsAdapter(val onClick: (Product) -> Unit) :
         val current = getItem(position)
         holder.name.text = current.title
         holder.price.text = current.getTextPrice()
-        Glide.with(binding.root.context).load(current.drawable).into(holder.img)
+        Glide.with(binding.root.context).load(current.thumbnail).into(holder.img)
         holder.ratingBar.rating = current.rating
         holder.cardView.setOnClickListener { onClick(current) }
     }
@@ -40,7 +40,7 @@ class ProductsAdapter(val onClick: (Product) -> Unit) :
     }
 }
 
-class ProductDiffUtil() :
+class ProductDiffUtil :
     DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =

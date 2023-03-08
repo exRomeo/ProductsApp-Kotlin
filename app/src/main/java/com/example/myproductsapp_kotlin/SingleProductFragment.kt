@@ -14,18 +14,13 @@ class SingleProductFragment : Fragment() {
     lateinit var binding: FragmentSingleProductBinding
     lateinit var product: Product
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         product = (arguments?.getSerializable("product") ?: Product()) as Product
-        // Inflate the layout for this fragment
+
         binding = FragmentSingleProductBinding.inflate(inflater)
         return binding.root
     }
@@ -48,6 +43,6 @@ class SingleProductFragment : Fragment() {
         binding.priceText.text = product.getTextPrice()
         binding.textDesc.text = product.description
         binding.frgRatingBar.rating = product.rating
-        Glide.with(this).load(product.drawable).into(binding.imgThumbnail)
+        Glide.with(this).load(product.thumbnail).into(binding.imgThumbnail)
     }
 }

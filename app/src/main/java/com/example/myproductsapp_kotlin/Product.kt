@@ -16,7 +16,6 @@ class Product(
     val brand: String = "N/A",
     val category: String = "N/A",
     val thumbnail: String = "N/A",
-    val drawable: Int = 0,
     val images: List<String> = listOf<String>("N/A"),
 ) : java.io.Serializable {
 
