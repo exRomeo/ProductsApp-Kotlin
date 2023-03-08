@@ -2,19 +2,20 @@ package com.example.myproductsapp_kotlin
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.myproductsapp_kotlin.databinding.FragmentProductListBinding
-import java.io.File
 import java.io.FileInputStream
 import java.io.ObjectInputStream
 
@@ -47,8 +48,9 @@ class ProductListFragment : Fragment() {
                 when (myInfo?.state) {
                     WorkInfo.State.SUCCEEDED -> {
                         Log.i(TAG, "work info: success ")
-                        val uri = myInfo.outputData.getString(Constants.FILE_NAME)
-                        setList(retrieveList())
+
+                        val uri = myInfo.outputData.getString(Constants.FILE_NAME)?.toUri()
+                        setList(retrieveList(uri))
                     }
                     WorkInfo.State.RUNNING -> {
                         Log.i(TAG, "work info: Processing ")
@@ -66,28 +68,28 @@ class ProductListFragment : Fragment() {
     }
 
     private fun iniRecyclerView() {
-        adapter =
-            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                ProductsAdapter() { product: Product ->
-                    startActivity(
-                        Intent(
-                            this.context, SingleProductActivity::class.java
-                        ).putExtra("product", product)
-                    )
-                }
-            } else {
-                ProductsAdapter { product: Product ->
-                    (this.activity as ProductListActivity).product = product
-                }
+        adapter = if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            ProductsAdapter() { product: Product ->
+                startActivity(
+                    Intent(
+                        this.context, SingleProductActivity::class.java
+                    ).putExtra("product", product)
+                )
             }
+        } else {
+            ProductsAdapter { product: Product ->
+                (this.activity as ProductListActivity).product = product
+            }
+        }
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.productsList.adapter = adapter
 
     }
 
-    private fun retrieveList(): List<Product> {
-        val fis = FileInputStream(File(this.requireContext().cacheDir, "products"))
+    private fun retrieveList(uri: Uri?): List<Product> {
+        val fis = FileInputStream(uri?.toFile())
         val ois = ObjectInputStream(fis)
+
         return ois.readObject() as MutableList<Product>
     }
 }
