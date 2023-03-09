@@ -1,7 +1,6 @@
 package com.example.myproductsapp_kotlin
 
 import android.content.Context
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -34,16 +33,13 @@ class ProductsWorker(val context: Context, workerParameters: WorkerParameters) :
                         workDataOf(Constants.FILE_NAME to file.toUri().toString())
                     )
                 } catch (e: IOException) {
-                    Log.i(TAG, "doWork: io ex")
                     Result.failure(workDataOf(Constants.FAILURE_REASON to e.message))
                 }
             } else {
-                Log.i(TAG, "doWork:response")
                 return Result.failure(workDataOf(Constants.FAILURE_REASON to response.errorBody()))
             }
         } catch (e: java.lang.Exception) {
 
-            Log.i(TAG, "doWork:  something else " + e.message)
             return Result.failure(workDataOf(Constants.FAILURE_REASON to e.message))
         }
     }
