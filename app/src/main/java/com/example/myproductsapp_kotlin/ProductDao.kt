@@ -7,7 +7,7 @@ import androidx.room.Upsert
 
 @Dao
 interface ProductDao {
-    @Query"SELECT * FROM product"
+    @Query("SELECT * FROM product")
     suspend fun getOfflineProducts():List<Product>
     @Upsert
     suspend fun addProduct(product: Product)
