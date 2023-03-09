@@ -1,11 +1,13 @@
 package com.example.myproductsapp_kotlin
 
-import android.graphics.drawable.AdaptiveIconDrawable
 import android.icu.text.NumberFormat
-import android.os.Build.VERSION_CODES.N
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import java.util.*
-
+@Entity(tableName = "product")
 class Product(
+    @PrimaryKey
     val id: Int = 0,
     val title: String = "N/A",
     val description: String = "Please Select a Product From List",
@@ -16,6 +18,7 @@ class Product(
     val brand: String = "N/A",
     val category: String = "N/A",
     val thumbnail: String = "N/A",
+    @Ignore
     val images: List<String> = listOf<String>("N/A"),
 ) : java.io.Serializable {
 

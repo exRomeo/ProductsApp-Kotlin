@@ -2,22 +2,18 @@ package com.example.myproductsapp_kotlin
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toFile
-import androidx.core.net.toUri
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.example.myproductsapp_kotlin.databinding.FragmentProductListBinding
-import java.io.FileInputStream
-import java.io.ObjectInputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 const val TAG = "TAG"
 
@@ -38,32 +34,24 @@ class ProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
-        val workManager = WorkManager.getInstance(this.requireContext())
-        val request =
-            OneTimeWorkRequestBuilder<ProductsWorker>().addTag(Constants.PRODUCTS_WORKER).build()
-        workManager.enqueue(request)
-        workManager.getWorkInfosByTagLiveData(Constants.PRODUCTS_WORKER)
-            .observe(this.requireActivity()) { workInfo ->
-                val myInfo = workInfo.find { it.id == request.id }
-                when (myInfo?.state) {
-                    WorkInfo.State.SUCCEEDED -> {
-                        Log.i(TAG, "work info: success ")
 
-                        val uri = myInfo.outputData.getString(Constants.FILE_NAME)?.toUri()
-                        setList(retrieveList(uri))
-                    }
-                    WorkInfo.State.RUNNING -> {
-                        Log.i(TAG, "work info: Processing ")
-                    }
-                    else -> {
-                        Log.i(TAG, "when's else block ?!")
-                    }
-                }
+        lifecycleScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.api.getAllProducts()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful)
+                    response.body()?.products?.let { setList(it) }
+                else
+                    Toast.makeText(
+                        this@ProductListFragment.requireContext(),
+                        "Couldn't fetch data",
+                        Toast.LENGTH_SHORT
+                    ).show()
             }
+        }
     }
 
 
-    fun setList(list: List<Product>) {
+    private fun setList(list: List<Product>) {
         adapter.submitList(list)
     }
 
@@ -86,10 +74,4 @@ class ProductListFragment : Fragment() {
 
     }
 
-    private fun retrieveList(uri: Uri?): List<Product> {
-        val fis = FileInputStream(uri?.toFile())
-        val ois = ObjectInputStream(fis)
-
-        return ois.readObject() as MutableList<Product>
-    }
 }
