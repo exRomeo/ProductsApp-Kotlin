@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 const val TAG = "TAG"
 
-class ProductListFragment : Fragment(),OnProductClick {
+class ProductListFragment : Fragment(), OnProductClick {
 
     private lateinit var binding: FragmentProductListBinding
     private lateinit var adapter: ProductsAdapter
@@ -135,6 +135,6 @@ class ProductListFragment : Fragment(),OnProductClick {
     }
 
     override fun onClick(product: Product) {
-       viewProduct(product)
+        viewProduct(product)
     }
 }

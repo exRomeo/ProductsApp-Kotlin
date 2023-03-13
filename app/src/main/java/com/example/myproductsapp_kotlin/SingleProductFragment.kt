@@ -21,7 +21,8 @@ class SingleProductFragment : Fragment() {
     ): View {
         product = (arguments?.getSerializable("product") ?: Product()) as Product
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_single_product,container,false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_single_product, container, false)
         return binding.root
     }
 
