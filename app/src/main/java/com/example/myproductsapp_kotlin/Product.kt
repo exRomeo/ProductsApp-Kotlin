@@ -4,6 +4,7 @@ import android.icu.text.NumberFormat
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
+
 @Entity(tableName = "product")
 class Product(
     @PrimaryKey
@@ -25,4 +26,17 @@ class Product(
     }
 
     override fun equals(other: Any?): Boolean = this === other
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + title.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + price
+        result = 31 * result + discountPercentage.hashCode()
+        result = 31 * result + rating.hashCode()
+        result = 31 * result + stock
+        result = 31 * result + brand.hashCode()
+        result = 31 * result + category.hashCode()
+        result = 31 * result + thumbnail.hashCode()
+        return result
+    }
 }

@@ -8,9 +8,11 @@ import androidx.room.Upsert
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM product")
-    suspend fun getOfflineProducts():List<Product>
+    suspend fun getOfflineProducts(): List<Product>
+
     @Upsert
     suspend fun addProduct(product: Product)
+
     @Delete
-    suspend fun deleteProduct(product: Product):Int
+    suspend fun deleteProduct(product: Product): Int
 }

@@ -1,12 +1,7 @@
 package com.example.myproductsapp_kotlin
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,25 +14,19 @@ class ProductsAdapter(val onClick: (Product) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding.root)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val current = getItem(position)
-        holder.name.text = current.title
-        holder.price.text = current.getTextPrice()
-        Glide.with(binding.root.context).load(current.thumbnail).into(holder.img)
-        holder.ratingBar.rating = current.rating
-        holder.cardView.setOnClickListener { onClick(current) }
+        holder.binding.tvProductName.text = current.title
+        holder.binding.tvPrice.text = current.getTextPrice()
+        Glide.with(binding.root.context).load(current.thumbnail).into(holder.binding.ivImg)
+        holder.binding.frgRatingBar.rating = current.rating
+        holder.binding.card.setOnClickListener { onClick(current) }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView = this@ProductsAdapter.binding.tvProductName
-        var price: TextView = this@ProductsAdapter.binding.tvPrice
-        var img: ImageView = this@ProductsAdapter.binding.ivImg
-        var ratingBar: RatingBar = this@ProductsAdapter.binding.frgRatingBar
-        var cardView: CardView = this@ProductsAdapter.binding.card
-    }
+    inner class ViewHolder(var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
 class ProductDiffUtil :
