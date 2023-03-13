@@ -25,7 +25,7 @@ const val TAG = "TAG"
 class ProductListFragment : Fragment(),OnProductClick {
 
     private lateinit var binding: FragmentProductListBinding
-    lateinit var adapter: ProductsAdapter
+    private lateinit var adapter: ProductsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,20 +85,7 @@ class ProductListFragment : Fragment(),OnProductClick {
     }
 
     private fun iniRecyclerView() {
-        adapter = ProductsAdapter(this) /*{ product: Product ->
-            Log.i(TAG, "lambda: start")
-            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Log.i(TAG, "lambda: portrait")
-                startActivity(
-                    Intent(
-                        this.context, SingleProductActivity::class.java
-                    ).putExtra("product", product)
-                )
-            } else {
-                Log.i(TAG, "lambda: landscape")
-                (this.activity as ProductListActivity).product = product
-            }
-        }*/ /*{ viewProduct }*/
+        adapter = ProductsAdapter(this)
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
 

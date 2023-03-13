@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myproductsapp_kotlin.databinding.ListItemBinding
 
-class ProductsAdapter(val onClick: OnProductClick) :
+class ProductsAdapter(private val onClick: OnProductClick) :
     ListAdapter<Product, ProductsAdapter.ViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,10 +29,6 @@ class ProductsAdapter(val onClick: OnProductClick) :
 
     inner class ViewHolder(var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun clickAction(product: Product){
-/*        Log.i(TAG, "clickAction: clicked")
-        action(product)*/
-    }
 }
 
 class ProductDiffUtil :

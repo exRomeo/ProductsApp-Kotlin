@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="product"
             type="com.example.myproductsapp_kotlin.Product" />
@@ -28,11 +29,11 @@
                 android:layout_marginBottom="4dp"
                 android:contentDescription="@string/img_desc"
                 android:scaleType="fitCenter"
+                app:imageUrl="@{product.thumbnail}"
                 app:layout_constraintBottom_toTopOf="@+id/brandText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl = "@{product.thumbnail}"
                 tools:srcCompat="@drawable/five" />
 
             <TextView
