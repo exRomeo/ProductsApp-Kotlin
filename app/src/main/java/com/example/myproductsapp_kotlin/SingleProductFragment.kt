@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.myproductsapp_kotlin.databinding.FragmentSingleProductBinding
 
 class SingleProductFragment : Fragment() {
@@ -21,7 +21,7 @@ class SingleProductFragment : Fragment() {
     ): View {
         product = (arguments?.getSerializable("product") ?: Product()) as Product
 
-        binding = FragmentSingleProductBinding.inflate(inflater)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_single_product,container,false)
         return binding.root
     }
 
@@ -38,11 +38,6 @@ class SingleProductFragment : Fragment() {
     }
 
     fun updateUI(product: Product) {
-        binding.textTitle.text = product.title
-        binding.brandText.text = product.brand
-        binding.priceText.text = product.getTextPrice()
-        binding.textDesc.text = product.description
-        binding.frgRatingBar.rating = product.rating
-        Glide.with(this).load(product.thumbnail).into(binding.imgThumbnail)
+        binding.product = product
     }
 }

@@ -6,10 +6,12 @@ import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +22,7 @@ import kotlinx.coroutines.withContext
 
 const val TAG = "TAG"
 
-class ProductListFragment : Fragment() {
+class ProductListFragment : Fragment(),OnProductClick {
 
     private lateinit var binding: FragmentProductListBinding
     lateinit var adapter: ProductsAdapter
@@ -30,7 +32,9 @@ class ProductListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentProductListBinding.inflate(inflater, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -81,21 +85,22 @@ class ProductListFragment : Fragment() {
     }
 
     private fun iniRecyclerView() {
-        adapter = if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            ProductsAdapter() { product: Product ->
+        adapter = ProductsAdapter(this) /*{ product: Product ->
+            Log.i(TAG, "lambda: start")
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                Log.i(TAG, "lambda: portrait")
                 startActivity(
                     Intent(
                         this.context, SingleProductActivity::class.java
                     ).putExtra("product", product)
                 )
-            }
-        } else {
-            ProductsAdapter { product: Product ->
+            } else {
+                Log.i(TAG, "lambda: landscape")
                 (this.activity as ProductListActivity).product = product
             }
-        }
+        }*/ /*{ viewProduct }*/
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
-        binding.productsList.adapter = adapter
+        binding.adapter = adapter
 
     }
 
@@ -124,5 +129,25 @@ class ProductListFragment : Fragment() {
     private suspend fun getData(): List<Product> {
         val dao = RoomClient.getInstance(this.requireContext()).getProductDao()
         return dao.getOfflineProducts()
+    }
+
+
+    val viewProduct = { product: Product ->
+        Log.i(TAG, "lambda: start")
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.i(TAG, "lambda: portrait")
+            startActivity(
+                Intent(
+                    this.context, SingleProductActivity::class.java
+                ).putExtra("product", product)
+            )
+        } else {
+            Log.i(TAG, "lambda: landscape")
+            (this.activity as ProductListActivity).product = product
+        }
+    }
+
+    override fun onClick(product: Product) {
+       viewProduct(product)
     }
 }
