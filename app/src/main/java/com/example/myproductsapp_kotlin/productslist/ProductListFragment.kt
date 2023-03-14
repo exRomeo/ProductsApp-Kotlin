@@ -1,7 +1,6 @@
 package com.example.myproductsapp_kotlin.productslist
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproductsapp_kotlin.OnProductClick
 import com.example.myproductsapp_kotlin.ProductsAdapter
 import com.example.myproductsapp_kotlin.R
-import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 import com.example.myproductsapp_kotlin.databinding.FragmentProductListBinding
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
+import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 
 class ProductListFragment : Fragment(), OnProductClick {
 
@@ -41,8 +40,7 @@ class ProductListFragment : Fragment(), OnProductClick {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
         viewModel = ViewModelProvider(
-            this.requireActivity(),
-            ProductListViewModelFactory(repository)
+            this.requireActivity(), ProductListViewModelFactory(repository)
         )[(ProductListViewModel::class.java)]
         if (viewModel.checkConnection()) {
             viewModel.getOnlineList()
@@ -59,27 +57,25 @@ class ProductListFragment : Fragment(), OnProductClick {
 
 
     private fun iniRecyclerView() {
-        adapter = ProductsAdapter(this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart))
+        adapter = ProductsAdapter(
+            this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart)
+        )
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
-
     }
 
     val viewProduct = { product: Product ->
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            startActivity(
-                Intent(
-                    this.context, SingleProductActivity::class.java
-                ).putExtra("product", product)
-            )
-        } else {
-            (this.activity as ProductListActivity).product = product
-        }
+        startActivity(
+            Intent(
+                this.context, SingleProductActivity::class.java
+            ).putExtra("product", product)
+        )
     }
 
     override fun onClick(product: Product) {
         viewProduct(product)
     }
+
     override fun onFavoriteClick(product: Product) {
         viewModel.addFavorite(product)
     }

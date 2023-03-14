@@ -10,15 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myproductsapp_kotlin.databinding.ListItemBinding
 import com.example.myproductsapp_kotlin.repository.Product
 
-class ProductsAdapter(private val onClick: OnProductClick,private val buttonIcon:Drawable?) :
+class ProductsAdapter(private val onClick: OnProductClick, private val buttonIcon: Drawable?) :
     ListAdapter<Product, ProductsAdapter.ViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ListItemBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.list_item,
-            parent,
-            false
+            LayoutInflater.from(parent.context), R.layout.list_item, parent, false
         )
         return ViewHolder(binding)
     }
@@ -34,8 +31,7 @@ class ProductsAdapter(private val onClick: OnProductClick,private val buttonIcon
 
 }
 
-class ProductDiffUtil :
-    DiffUtil.ItemCallback<Product>() {
+class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
         oldItem.id == newItem.id

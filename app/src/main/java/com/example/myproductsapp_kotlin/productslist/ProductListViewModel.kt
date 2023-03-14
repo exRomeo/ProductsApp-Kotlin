@@ -13,7 +13,6 @@ class ProductListViewModel(private val repository: Repository) : ViewModel() {
     private var _productsList = MutableLiveData<List<Product>>()
     val productsList: LiveData<List<Product>> = _productsList
 
-
     fun getOnlineList() {
         viewModelScope.launch(Dispatchers.IO) {
             _productsList.postValue(

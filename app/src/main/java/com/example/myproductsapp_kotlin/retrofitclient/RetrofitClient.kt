@@ -11,5 +11,4 @@ object RetrofitClient {
     val api: API = retrofit.create(
         API::class.java
     )
-
 }

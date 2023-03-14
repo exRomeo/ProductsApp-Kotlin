@@ -1,7 +1,6 @@
 package com.example.myproductsapp_kotlin.favorites
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproductsapp_kotlin.OnProductClick
 import com.example.myproductsapp_kotlin.ProductsAdapter
 import com.example.myproductsapp_kotlin.R
-import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 import com.example.myproductsapp_kotlin.databinding.FragmentFavoritesBinding
-import com.example.myproductsapp_kotlin.productslist.ProductListActivity
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
+import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 
 
 class FavoritesFragment : Fragment(), OnProductClick {
@@ -30,7 +28,6 @@ class FavoritesFragment : Fragment(), OnProductClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
         binding.lifecycleOwner = this
         return binding.root
@@ -45,24 +42,22 @@ class FavoritesFragment : Fragment(), OnProductClick {
         showFavorites()
     }
 
-
     private fun iniRecyclerView() {
-        adapter = ProductsAdapter(this, ContextCompat.getDrawable(this.requireContext(), R.drawable.baseline_delete_forever_24))
+        adapter = ProductsAdapter(
+            this,
+            ContextCompat.getDrawable(this.requireContext(), R.drawable.baseline_delete_forever_24)
+        )
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
-
     }
 
     val viewProduct = { product: Product ->
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            startActivity(
-                Intent(
-                    this.context, SingleProductActivity::class.java
-                ).putExtra("product", product)
-            )
-        } else {
-            (this.activity as ProductListActivity).product = product
-        }
+        startActivity(
+            Intent(
+                this.context, SingleProductActivity::class.java
+            ).putExtra("product", product)
+        )
+
     }
 
 

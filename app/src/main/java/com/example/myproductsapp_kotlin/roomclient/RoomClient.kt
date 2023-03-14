@@ -17,9 +17,7 @@ abstract class RoomClient : RoomDatabase() {
         fun getInstance(context: Context): RoomClient {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    RoomClient::class.java,
-                    "product_database"
+                    context.applicationContext, RoomClient::class.java, "product_database"
                 ).build()
                 INSTANCE = instance
                 instance
