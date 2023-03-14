@@ -1,7 +1,8 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.favorites
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myproductsapp_kotlin.R
 import com.example.myproductsapp_kotlin.databinding.ActivityFavoritesBinding
 
 class FavoritesActivity : AppCompatActivity() {

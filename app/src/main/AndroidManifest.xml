@@ -14,13 +14,13 @@
         android:theme="@style/Theme.MyProductsAppKotlin"
         tools:targetApi="31">
         <activity
-            android:name=".FavoritesActivity"
+            android:name=".favorites.FavoritesActivity"
             android:exported="false" />
         <activity
-            android:name=".SingleProductActivity"
+            android:name=".singleproduct.SingleProductActivity"
             android:exported="false" />
         <activity
-            android:name=".ProductListActivity"
+            android:name=".productslist.ProductListActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

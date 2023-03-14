@@ -1,7 +1,8 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.singleproduct
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myproductsapp_kotlin.R
 import com.example.myproductsapp_kotlin.databinding.ActivitySingleProductBinding
 import com.example.myproductsapp_kotlin.repository.Product
 

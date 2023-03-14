@@ -1,4 +1,4 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.productslist
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -6,24 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myproductsapp_kotlin.OnProductClick
+import com.example.myproductsapp_kotlin.ProductsAdapter
+import com.example.myproductsapp_kotlin.R
+import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 import com.example.myproductsapp_kotlin.databinding.FragmentProductListBinding
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
-const val TAG = "TAG"
 
 class ProductListFragment : Fragment(), OnProductClick {
 
     private lateinit var binding: FragmentProductListBinding
     private lateinit var adapter: ProductsAdapter
+    private lateinit var viewModel: ProductListViewModel
+
     private val repository by lazy { Repository(this.requireContext()) }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,17 +40,26 @@ class ProductListFragment : Fragment(), OnProductClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
-
-        if (repository.checkConnection()) {
-            showOnlineData()
+        viewModel = ViewModelProvider(
+            this.requireActivity(),
+            ProductListViewModelFactory(repository)
+        )[(ProductListViewModel::class.java)]
+        if (viewModel.checkConnection()) {
+            viewModel.getOnlineList()
+            viewModel.productsList.observe(this.requireActivity()) {
+                adapter.submitList(it)
+            }
         } else {
-            showOfflineData()
+            viewModel.getOfflineList()
+            viewModel.productsList.observe(this.requireActivity()) {
+                adapter.submitList(it)
+            }
         }
     }
 
 
     private fun iniRecyclerView() {
-        adapter = ProductsAdapter(this)
+        adapter = ProductsAdapter(this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart))
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
 
@@ -70,39 +80,7 @@ class ProductListFragment : Fragment(), OnProductClick {
     override fun onClick(product: Product) {
         viewProduct(product)
     }
-
-    private fun showOnlineData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response = repository.getAllProducts()
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) response.body()?.products?.let {
-                    adapter.submitList(it)
-                    Toast.makeText(
-                        this@ProductListFragment.requireContext(),
-                        "Showing Latest data",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else Toast.makeText(
-                    this@ProductListFragment.requireContext(),
-                    "Couldn't fetch data",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    private fun showOfflineData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val list = repository.getOfflineData()
-            withContext(Dispatchers.Main) {
-                adapter.submitList(list)
-                Toast.makeText(
-                    this@ProductListFragment.requireContext(),
-                    "Showing offline data",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+    override fun onFavoriteClick(product: Product) {
+        viewModel.addFavorite(product)
     }
 }

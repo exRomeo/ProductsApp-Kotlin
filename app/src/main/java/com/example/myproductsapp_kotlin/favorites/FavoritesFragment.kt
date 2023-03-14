@@ -1,4 +1,4 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.favorites
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -6,29 +6,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myproductsapp_kotlin.OnProductClick
+import com.example.myproductsapp_kotlin.ProductsAdapter
+import com.example.myproductsapp_kotlin.R
+import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
 import com.example.myproductsapp_kotlin.databinding.FragmentFavoritesBinding
+import com.example.myproductsapp_kotlin.productslist.ProductListActivity
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
-class FavoritesFragment : Fragment(),OnProductClick {
+class FavoritesFragment : Fragment(), OnProductClick {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: ProductsAdapter
     private val repository by lazy { Repository(this.requireContext()) }
-
+    private lateinit var viewModel: FavoritesViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
@@ -39,13 +39,15 @@ class FavoritesFragment : Fragment(),OnProductClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
+        viewModel = ViewModelProvider(
+            this.requireActivity(), FavoritesViewModelFactory(repository)
+        )[(FavoritesViewModel::class.java)]
         showFavorites()
     }
 
 
-
     private fun iniRecyclerView() {
-        adapter = ProductsAdapter(this)
+        adapter = ProductsAdapter(this, ContextCompat.getDrawable(this.requireContext(), R.drawable.baseline_delete_forever_24))
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
 
@@ -68,17 +70,12 @@ class FavoritesFragment : Fragment(),OnProductClick {
         viewProduct(product)
     }
 
+    override fun onFavoriteClick(product: Product) {
+        viewModel.removeFromFavorites(product)
+    }
+
     private fun showFavorites() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val list = repository.getFavorites()
-            withContext(Dispatchers.Main) {
-                adapter.submitList(list)
-                Toast.makeText(
-                    this@FavoritesFragment.requireContext(),
-                    "Showing Favorites",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        viewModel.getFavorites()
+        viewModel.productsList.observe(this.requireActivity()) { adapter.submitList(it) }
     }
 }

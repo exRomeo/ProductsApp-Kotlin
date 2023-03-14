@@ -85,11 +85,12 @@
                 android:layout_marginTop="16dp"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/image_desc"
-                android:drawableTop="@null"
+                android:onClick="@{()->action.onFavoriteClick(product)}"
                 app:layout_constraintBottom_toTopOf="@+id/frg_ratingBar"
                 app:layout_constraintEnd_toEndOf="@+id/frg_ratingBar"
                 app:layout_constraintStart_toStartOf="@+id/frg_ratingBar"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/heart" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -1,5 +1,6 @@
 package com.example.myproductsapp_kotlin
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myproductsapp_kotlin.databinding.ListItemBinding
 import com.example.myproductsapp_kotlin.repository.Product
 
-class ProductsAdapter(private val onClick: OnProductClick) :
+class ProductsAdapter(private val onClick: OnProductClick,private val buttonIcon:Drawable?) :
     ListAdapter<Product, ProductsAdapter.ViewHolder>(ProductDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,6 +27,7 @@ class ProductsAdapter(private val onClick: OnProductClick) :
         val current = getItem(position)
         holder.binding.product = current
         holder.binding.action = onClick
+        holder.binding.favButton.setImageDrawable(buttonIcon)
     }
 
     inner class ViewHolder(var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)

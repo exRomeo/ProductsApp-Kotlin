@@ -1,4 +1,4 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.singleproduct
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.myproductsapp_kotlin.R
 import com.example.myproductsapp_kotlin.databinding.FragmentSingleProductBinding
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
