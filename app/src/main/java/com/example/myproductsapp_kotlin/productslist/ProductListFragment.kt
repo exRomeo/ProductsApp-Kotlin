@@ -55,7 +55,6 @@ class ProductListFragment : Fragment(), OnProductClick {
         }
     }
 
-
     private fun iniRecyclerView() {
         adapter = ProductsAdapter(
             this,
