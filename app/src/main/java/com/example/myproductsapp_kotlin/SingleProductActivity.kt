@@ -1,8 +1,9 @@
 package com.example.myproductsapp_kotlin
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myproductsapp_kotlin.databinding.ActivitySingleProductBinding
+import com.example.myproductsapp_kotlin.repository.Product
 
 class SingleProductActivity : AppCompatActivity() {
     lateinit var binding: ActivitySingleProductBinding

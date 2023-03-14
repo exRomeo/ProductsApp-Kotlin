@@ -1,4 +1,4 @@
-package com.example.myproductsapp_kotlin
+package com.example.myproductsapp_kotlin.repository
 
 import android.icu.text.NumberFormat
 import androidx.room.Entity
@@ -9,7 +9,7 @@ import java.util.*
 class Product(
     @PrimaryKey
     val id: Int = 0,
-    var title: String = "N/A",
+    val title: String = "N/A",
     val description: String = "Please Select a Product From List",
     val price: Int = 0,
     val discountPercentage: Float = 0.00f,
@@ -18,6 +18,7 @@ class Product(
     val brand: String = "N/A",
     val category: String = "N/A",
     val thumbnail: String = "N/A",
+    var isFavorite: Boolean = false
 ) : java.io.Serializable {
 
     fun getTextPrice(): String {
@@ -37,6 +38,8 @@ class Product(
         result = 31 * result + brand.hashCode()
         result = 31 * result + category.hashCode()
         result = 31 * result + thumbnail.hashCode()
+        result = 31 * result + isFavorite.hashCode()
         return result
     }
+
 }

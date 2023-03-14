@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
             intent = Intent(this, ProductListActivity::class.java)
             startActivity(intent)
         }
+        binding.favsButton.setOnClickListener {
+            intent = Intent(this, FavoritesActivity::class.java)
+            startActivity(intent)
+        }
         binding.exitButton.setOnClickListener { finish() }
 
     }

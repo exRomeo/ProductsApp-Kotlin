@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myproductsapp_kotlin.databinding.ListItemBinding
+import com.example.myproductsapp_kotlin.repository.Product
 
 class ProductsAdapter(private val onClick: OnProductClick) :
     ListAdapter<Product, ProductsAdapter.ViewHolder>(ProductDiffUtil()) {

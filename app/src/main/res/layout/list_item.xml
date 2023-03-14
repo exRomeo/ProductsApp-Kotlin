@@ -7,7 +7,7 @@
 
         <variable
             name="product"
-            type="com.example.myproductsapp_kotlin.Product" />
+            type="com.example.myproductsapp_kotlin.repository.Product" />
 
         <variable
             name="action"

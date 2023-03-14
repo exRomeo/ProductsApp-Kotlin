@@ -7,13 +7,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.myproductsapp_kotlin.databinding.FragmentSingleProductBinding
+import com.example.myproductsapp_kotlin.repository.Product
+import com.example.myproductsapp_kotlin.repository.Repository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SingleProductFragment : Fragment() {
 
     lateinit var binding: FragmentSingleProductBinding
     lateinit var product: Product
-
+    private val repository by lazy { Repository(this.requireContext()) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,15 +35,20 @@ class SingleProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateUI(product)
         binding.addButton.setOnClickListener {
+            addToFavorites(product)
             Toast.makeText(
-                this.context,
-                "${product.title}\nadded to favorites",
-                Toast.LENGTH_SHORT
+                this.context, "${product.title}\nadded to favorites", Toast.LENGTH_SHORT
             ).show()
         }
     }
 
     fun updateUI(product: Product) {
         binding.product = product
+    }
+
+    private fun addToFavorites(product: Product) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            repository.addToFavorites(product)
+        }
     }
 }

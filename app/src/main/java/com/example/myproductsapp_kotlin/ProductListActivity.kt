@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.myproductsapp_kotlin.databinding.ActivityProductListBinding
+import com.example.myproductsapp_kotlin.repository.Product
 
 class ProductListActivity : AppCompatActivity() {
     lateinit var binding: ActivityProductListBinding
