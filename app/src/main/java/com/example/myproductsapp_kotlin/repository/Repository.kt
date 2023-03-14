@@ -8,6 +8,7 @@ import com.example.myproductsapp_kotlin.roomclient.RoomClient
 import retrofit2.Response
 
 class Repository(private val context: Context) {
+
     private val dao by lazy { RoomClient.getInstance(context).getProductDao() }
 
 

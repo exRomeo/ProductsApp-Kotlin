@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SingleProductFragment : Fragment() {
 
@@ -36,20 +38,31 @@ class SingleProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateUI(product)
         binding.addButton.setOnClickListener {
-            addToFavorites(product)
+            action(product)
             Toast.makeText(
                 this.context, "${product.title}\nadded to favorites", Toast.LENGTH_SHORT
             ).show()
         }
     }
 
-    fun updateUI(product: Product) {
+    private fun updateUI(product: Product) {
         binding.product = product
+        binding.addButton.setImageDrawable(
+            if (product.isFavorite)
+                ContextCompat.getDrawable(this.requireContext(),R.drawable.trash)
+            else
+                ContextCompat.getDrawable(this.requireContext(), R.drawable.heart)
+        )
     }
 
-    private fun addToFavorites(product: Product) {
+    private fun action(product: Product) {
         lifecycleScope.launch(Dispatchers.IO) {
-            repository.addToFavorites(product)
+            if (product.isFavorite)
+                repository.removeFromFavorites(product)
+            else
+                repository.addToFavorites(product)
+            withContext(Dispatchers.Main) { updateUI(product) }
         }
+
     }
 }

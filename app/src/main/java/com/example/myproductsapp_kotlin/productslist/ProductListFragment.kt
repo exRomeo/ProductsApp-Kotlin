@@ -22,9 +22,11 @@ class ProductListFragment : Fragment(), OnProductClick {
 
     private lateinit var binding: FragmentProductListBinding
     private lateinit var adapter: ProductsAdapter
-    private lateinit var viewModel: ProductListViewModel
-
     private val repository by lazy { Repository(this.requireContext()) }
+    private val viewModel: ProductListViewModel by lazy { ViewModelProvider(
+        this.requireActivity(), ProductListViewModelFactory(repository)
+    )[(ProductListViewModel::class.java)] }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,19 +41,9 @@ class ProductListFragment : Fragment(), OnProductClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
-        viewModel = ViewModelProvider(
-            this.requireActivity(), ProductListViewModelFactory(repository)
-        )[(ProductListViewModel::class.java)]
-        if (viewModel.checkConnection()) {
-            viewModel.getOnlineList()
-            viewModel.productsList.observe(this.requireActivity()) {
-                adapter.submitList(it)
-            }
-        } else {
-            viewModel.getOfflineList()
-            viewModel.productsList.observe(this.requireActivity()) {
-                adapter.submitList(it)
-            }
+        viewModel.updateList()
+        viewModel.productsList.observe(this.requireActivity()) {
+            adapter.submitList(it)
         }
     }
 

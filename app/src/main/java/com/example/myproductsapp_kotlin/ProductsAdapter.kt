@@ -36,7 +36,7 @@ class ProductsAdapter(
 class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
-        oldItem.id == newItem.id && oldItem.isFavorite == newItem.isFavorite
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
         oldItem == newItem

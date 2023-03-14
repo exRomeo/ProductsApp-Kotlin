@@ -13,7 +13,20 @@ class ProductListViewModel(private val repository: Repository) : ViewModel() {
     private var _productsList = MutableLiveData<List<Product>>()
     val productsList: LiveData<List<Product>> = _productsList
 
-    fun getOnlineList() {
+    fun addFavorite(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addToFavorites(product)
+            updateList()
+        }
+    }
+
+    fun removeFavorite(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeFromFavorites(product)
+            updateList()
+        }
+    }
+    private fun getOnlineList() {
         viewModelScope.launch(Dispatchers.IO) {
             _productsList.postValue(
                 repository.getAllProducts().body()?.products ?: listOf(Product())
@@ -21,23 +34,16 @@ class ProductListViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getOfflineList() {
+    private fun getOfflineList() {
         viewModelScope.launch(Dispatchers.IO) { _productsList.postValue(repository.getOfflineData()) }
     }
+    private fun checkConnection(): Boolean = repository.checkConnection()
 
-    fun addFavorite(product: Product) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addToFavorites(product)
+    fun updateList(){
+        if (checkConnection()) {
+            getOnlineList()
+        } else {
             getOfflineList()
         }
     }
-
-    fun removeFavorite(product: Product) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeFromFavorites(product)
-            getOfflineList()
-        }
-    }
-
-    fun checkConnection(): Boolean = repository.checkConnection()
 }

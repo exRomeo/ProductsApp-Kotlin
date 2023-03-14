@@ -17,7 +17,9 @@ class SingleProductActivity : AppCompatActivity() {
             val fragment = SingleProductFragment()
             val bundle = Bundle()
             bundle.putSerializable(
-                "product", intent.getSerializableExtra("product") as Product
+                "product",
+                intent.getSerializableExtra("product") as Product
+
             )
             fragment.arguments = bundle
             fragmentTransaction.add(R.id.fragmentContainerView, fragment, "single")
