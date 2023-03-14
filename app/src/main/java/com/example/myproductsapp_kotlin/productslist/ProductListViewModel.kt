@@ -26,7 +26,17 @@ class ProductListViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun addFavorite(product: Product) {
-        viewModelScope.launch(Dispatchers.IO) { repository.addToFavorites(product) }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addToFavorites(product)
+            getOfflineList()
+        }
+    }
+
+    fun removeFavorite(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeFromFavorites(product)
+            getOfflineList()
+        }
     }
 
     fun checkConnection(): Boolean = repository.checkConnection()

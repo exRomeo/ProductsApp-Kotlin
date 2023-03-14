@@ -7,8 +7,7 @@ import java.util.*
 
 @Entity(tableName = "product")
 class Product(
-    @PrimaryKey
-    val id: Int = 0,
+    @PrimaryKey val id: Int = 0,
     val title: String = "N/A",
     val description: String = "Please Select a Product From List",
     val price: Int = 0,
@@ -26,7 +25,7 @@ class Product(
         return currencyFormatter.format(price)
     }
 
-    override fun equals(other: Any?): Boolean = this === other
+
     override fun hashCode(): Int {
         var result = id
         result = 31 * result + title.hashCode()
@@ -40,6 +39,18 @@ class Product(
         result = 31 * result + thumbnail.hashCode()
         result = 31 * result + isFavorite.hashCode()
         return result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Product
+
+        if (id != other.id) return false
+        if (isFavorite != other.isFavorite) return false
+
+        return true
     }
 
 }

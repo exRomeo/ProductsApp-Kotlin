@@ -58,7 +58,9 @@ class ProductListFragment : Fragment(), OnProductClick {
 
     private fun iniRecyclerView() {
         adapter = ProductsAdapter(
-            this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart)
+            this,
+            ContextCompat.getDrawable(this.requireContext(), R.drawable.heart),
+            ContextCompat.getDrawable(this.requireContext(), R.drawable.trash)
         )
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
@@ -72,11 +74,14 @@ class ProductListFragment : Fragment(), OnProductClick {
         )
     }
 
-    override fun onClick(product: Product) {
+    override fun onItemClick(product: Product) {
         viewProduct(product)
     }
 
-    override fun onFavoriteClick(product: Product) {
-        viewModel.addFavorite(product)
+    override fun onButtonClick(product: Product) {
+        if (product.isFavorite)
+            viewModel.removeFavorite(product)
+        else
+            viewModel.addFavorite(product)
     }
 }

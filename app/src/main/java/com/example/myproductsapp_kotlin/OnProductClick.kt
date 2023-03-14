@@ -3,6 +3,6 @@ package com.example.myproductsapp_kotlin
 import com.example.myproductsapp_kotlin.repository.Product
 
 interface OnProductClick {
-    fun onClick(product: Product)
-    fun onFavoriteClick(product: Product)
+    fun onItemClick(product: Product)
+    fun onButtonClick(product: Product)
 }

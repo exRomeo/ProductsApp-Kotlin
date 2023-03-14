@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:background="#00FFFFFF"
-        android:onClick="@{()->action.onClick(product)}"
+        android:onClick="@{()->action.onItemClick(product)}"
         app:cardCornerRadius="20dp"
         app:cardElevation="5dp">
 
@@ -85,7 +85,7 @@
                 android:layout_marginTop="16dp"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/image_desc"
-                android:onClick="@{()->action.onFavoriteClick(product)}"
+                android:onClick="@{()->action.onButtonClick(product)}"
                 app:layout_constraintBottom_toTopOf="@+id/frg_ratingBar"
                 app:layout_constraintEnd_toEndOf="@+id/frg_ratingBar"
                 app:layout_constraintStart_toStartOf="@+id/frg_ratingBar"
