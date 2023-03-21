@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "product")
-class Product(
+data class Product(
     @PrimaryKey val id: Int = 0,
     val title: String = "N/A",
     val description: String = "Please Select a Product From List",
@@ -24,33 +24,4 @@ class Product(
         val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("en", "US"))
         return currencyFormatter.format(price)
     }
-
-    override fun hashCode(): Int {
-        var result = id
-        result = 31 * result + title.hashCode()
-        result = 31 * result + description.hashCode()
-        result = 31 * result + price
-        result = 31 * result + discountPercentage.hashCode()
-        result = 31 * result + rating.hashCode()
-        result = 31 * result + stock
-        result = 31 * result + brand.hashCode()
-        result = 31 * result + category.hashCode()
-        result = 31 * result + thumbnail.hashCode()
-        result = 31 * result + isFavorite.hashCode()
-        return result
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Product
-
-        if (id != other.id) return false
-        if (isFavorite != other.isFavorite) return false
-
-        return true
-    }
-
-
 }

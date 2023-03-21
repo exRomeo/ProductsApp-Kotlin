@@ -21,13 +21,11 @@ class Repository(private val context: Context) {
     }
 
     suspend fun addToFavorites(product: Product) {
-        product.isFavorite = true
-        dao.addProduct(product)
+        dao.addProduct(product.copy(isFavorite = true))
     }
 
     suspend fun removeFromFavorites(product: Product) {
-        product.isFavorite = false
-        dao.addProduct(product)
+        dao.addProduct(product.copy(isFavorite = false))
     }
 
     fun getFavorites(): List<Product> {
