@@ -34,7 +34,7 @@ class ProductListFragment : Fragment(), OnProductClick {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_product_list, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
 
