@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM product")
-    suspend fun getOfflineProducts(): List<Product>
+    fun getOfflineProducts(): Flow<List<Product>>
 
     @Query("SELECT * FROM product WHERE isFavorite = 1")
     fun getFavoritesList(): Flow<List<Product>>

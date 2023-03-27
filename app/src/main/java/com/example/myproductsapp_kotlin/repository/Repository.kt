@@ -17,7 +17,7 @@ class Repository(private val context: Context) {
         return RetrofitClient.api.getAllProducts()
     }
 
-    suspend fun getOfflineData(): List<Product> {
+    fun getOfflineData(): Flow<List<Product>> {
         return dao.getOfflineProducts()
     }
 
