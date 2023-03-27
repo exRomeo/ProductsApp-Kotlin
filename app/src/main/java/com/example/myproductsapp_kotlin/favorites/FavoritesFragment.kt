@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproductsapp_kotlin.OnProductClick
 import com.example.myproductsapp_kotlin.ProductsAdapter
 import com.example.myproductsapp_kotlin.R
@@ -47,7 +46,6 @@ class FavoritesFragment : Fragment(), OnProductClick {
             this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart),
             ContextCompat.getDrawable(this.requireContext(), R.drawable.trash)
         )
-        binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
     }
 
