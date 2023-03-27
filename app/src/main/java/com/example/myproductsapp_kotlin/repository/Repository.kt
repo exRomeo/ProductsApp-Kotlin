@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.example.myproductsapp_kotlin.retrofitclient.RetrofitClient
 import com.example.myproductsapp_kotlin.roomclient.RoomClient
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class Repository(private val context: Context) {
@@ -28,7 +29,7 @@ class Repository(private val context: Context) {
         dao.addProduct(product.copy(isFavorite = false))
     }
 
-    fun getFavorites(): List<Product> {
+    fun getFavorites(): Flow<List<Product>> {
         return dao.getFavoritesList()
     }
 

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myproductsapp_kotlin.OnProductClick
 import com.example.myproductsapp_kotlin.ProductsAdapter
@@ -17,6 +18,7 @@ import com.example.myproductsapp_kotlin.databinding.FragmentFavoritesBinding
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
 import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
+import kotlinx.coroutines.launch
 
 
 class FavoritesFragment : Fragment(), OnProductClick {
@@ -70,7 +72,8 @@ class FavoritesFragment : Fragment(), OnProductClick {
     }
 
     private fun showFavorites() {
-        viewModel.getFavorites()
-        viewModel.productsList.observe(this.requireActivity()) { adapter.submitList(it) }
+        lifecycleScope.launch {
+            viewModel.productsList.collect { adapter.submitList(it) }
+        }
     }
 }

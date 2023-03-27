@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.myproductsapp_kotlin.repository.Product
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
@@ -12,7 +13,7 @@ interface ProductDao {
     suspend fun getOfflineProducts(): List<Product>
 
     @Query("SELECT * FROM product WHERE isFavorite = 1")
-    fun getFavoritesList():List<Product>
+    fun getFavoritesList(): Flow<List<Product>>
 
     @Upsert
     suspend fun addProduct(product: Product)
