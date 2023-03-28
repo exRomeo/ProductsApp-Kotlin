@@ -8,7 +8,7 @@ import java.util.*
 @Entity(tableName = "product")
 data class Product(
     @PrimaryKey val id: Int = 0,
-    val title: String = "N/A",
+    val title: String = "Loading...",
     val description: String = "Please Select a Product From List",
     val price: Int = 0,
     val discountPercentage: Float = 0.00f,

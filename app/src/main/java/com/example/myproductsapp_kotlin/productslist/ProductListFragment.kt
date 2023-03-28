@@ -17,7 +17,9 @@ import com.example.myproductsapp_kotlin.R
 import com.example.myproductsapp_kotlin.databinding.FragmentProductListBinding
 import com.example.myproductsapp_kotlin.repository.Product
 import com.example.myproductsapp_kotlin.repository.Repository
+import com.example.myproductsapp_kotlin.sealedclass.APIState
 import com.example.myproductsapp_kotlin.singleproduct.SingleProductActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class ProductListFragment : Fragment(), OnProductClick {
@@ -25,9 +27,11 @@ class ProductListFragment : Fragment(), OnProductClick {
     private lateinit var binding: FragmentProductListBinding
     private lateinit var adapter: ProductsAdapter
     private val repository by lazy { Repository(this.requireContext()) }
-    private val viewModel: ProductListViewModel by lazy { ViewModelProvider(
-        this.requireActivity(), ProductListViewModelFactory(repository)
-    )[(ProductListViewModel::class.java)] }
+    private val viewModel: ProductListViewModel by lazy {
+        ViewModelProvider(
+            this.requireActivity(), ProductListViewModelFactory(repository)
+        )[(ProductListViewModel::class.java)]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +47,9 @@ class ProductListFragment : Fragment(), OnProductClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         iniRecyclerView()
-        viewModel.updateList()
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.productsList.collect {
-                adapter.submitList(it)
+                showResponse(it)
             }
         }
     }
@@ -78,5 +81,29 @@ class ProductListFragment : Fragment(), OnProductClick {
             viewModel.removeFavorite(product)
         else
             viewModel.addFavorite(product)
+    }
+
+
+    private fun showResponse(apiState: APIState) {
+        when (apiState) {
+            is APIState.Loading -> {
+                binding.productsList.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            is APIState.Success -> {
+                binding.progressBar.visibility = View.GONE
+                binding.productsList.visibility = View.VISIBLE
+                binding.adapter!!.submitList(apiState.data)
+            }
+            is APIState.Failure -> {
+                binding.progressBar.visibility = View.GONE
+                apiState.msg.message?.let {
+                    Snackbar.make(
+                        binding.root,
+                        it, Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 }

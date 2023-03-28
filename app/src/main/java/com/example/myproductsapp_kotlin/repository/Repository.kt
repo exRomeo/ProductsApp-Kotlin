@@ -6,15 +6,21 @@ import android.net.NetworkCapabilities
 import com.example.myproductsapp_kotlin.retrofitclient.RetrofitClient
 import com.example.myproductsapp_kotlin.roomclient.RoomClient
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
+import kotlinx.coroutines.flow.flow
 
 class Repository(private val context: Context) {
 
     private val dao by lazy { RoomClient.getInstance(context).getProductDao() }
 
 
-    suspend fun getAllProducts(): Response<ProductModel> {
-        return RetrofitClient.api.getAllProducts()
+    fun getAllProducts(): Flow<List<Product>> {
+        return flow {
+            val response = RetrofitClient.api.getAllProducts()
+            if (response.isSuccessful && response.body() != null && response.body()!!.products != null)
+                emit(response.body()!!.products!!)
+            else throw Exception("Timeout Couldn't fetch data")
+        }
+
     }
 
     fun getOfflineData(): Flow<List<Product>> {
