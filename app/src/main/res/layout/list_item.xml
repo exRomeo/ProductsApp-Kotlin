@@ -78,13 +78,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <ImageButton
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/favButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginTop="16dp"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/image_desc"
+                app:lottie_autoPlay="true"
                 android:onClick="@{()->action.onButtonClick(product)}"
                 app:layout_constraintBottom_toTopOf="@+id/frg_ratingBar"
                 app:layout_constraintEnd_toEndOf="@+id/frg_ratingBar"

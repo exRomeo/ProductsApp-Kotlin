@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -46,8 +45,8 @@ class FavoritesFragment : Fragment(), OnProductClick {
 
     private fun iniRecyclerView() {
         adapter = ProductsAdapter(
-            this, ContextCompat.getDrawable(this.requireContext(), R.drawable.heart),
-            ContextCompat.getDrawable(this.requireContext(), R.drawable.trash)
+            this, R.raw.unsave,
+            R.raw.save
         )
         binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.adapter = adapter
